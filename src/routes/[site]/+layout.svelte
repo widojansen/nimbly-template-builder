@@ -4,7 +4,7 @@
     database_subscribe,
     storage_subscribe,
     deploy_subscribe,
-  } from '@primocms/builder'
+  } from '@widojansen/builder'
   import axios from 'axios'
 
   export let data

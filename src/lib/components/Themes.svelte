@@ -4,7 +4,7 @@
   import _ from 'lodash-es'
   import axios from 'axios'
   import ThemeThumbnail from '$lib/components/ThemeThumbnail.svelte'
-  import { validate_site_structure_v2 } from '@primocms/builder'
+  import { validate_site_structure_v2 } from '@widojansen/builder'
 
   const dispatch = createEventDispatcher()
 
