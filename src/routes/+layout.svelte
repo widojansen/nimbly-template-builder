@@ -4,7 +4,7 @@
 	import '$lib/assets/reset.css'
 	import { browser } from '$app/environment'
 	import { onMount } from 'svelte'
-	import { registerProcessors } from '@widojansen/builder'
+	import { registerProcessors } from 'builder'
 	import Modal from '$lib/components/Modal.svelte'
 	import { invalidate } from '$app/navigation'
 	import supabase_client from '$lib/supabase'

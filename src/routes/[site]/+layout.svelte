@@ -4,7 +4,7 @@
     database_subscribe,
     storage_subscribe,
     deploy_subscribe,
-  } from '@widojansen/builder'
+  } from 'builder'
   import axios from 'axios'
 
   export let data
@@ -14,7 +14,7 @@
   deploy_subscribe(async (untyped_payload, create_new) => {
     // workaround because adding the type next to the argument throws a parsing error (?)
     const payload =
-      /** @type {import('@primocms/builder/src/lib/deploy.js').DeploymentPayload} */ (
+      /** @type {import('builder/src/lib/deploy.js').DeploymentPayload} */ (
         untyped_payload
       )
 
