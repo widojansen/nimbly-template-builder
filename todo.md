@@ -1,5 +1,5 @@
-1. Modify primo_schema.sql to include the template table and its keys
-2. Add the template table and keys to the database
+1. ✅ Modify primo_schema.sql to include the template table and its keys
+2. ✅ Add the template table and keys to the database
 3. Create a templates page in the api section to export the content of the template table
 4. Create a button in overview to mark a site as a template
 5. Create modal with template_id/name/repo/description/preview_url/available/repo/screenshots mobile/tablet/desktop
