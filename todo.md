@@ -8,6 +8,7 @@
 8. Create a update template action
 9. Create a read template action
 10. ✅Import the templates into the site builder
+11. ✅Setup redeployments of site-builder and template-builder
 
 Template JSON:
 {"templates": [
