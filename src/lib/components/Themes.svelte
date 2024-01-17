@@ -5,18 +5,16 @@
   import axios from 'axios'
   import ThemeThumbnail from '$lib/components/ThemeThumbnail.svelte'
   import { validate_site_structure_v2 } from 'builder'
+  import { PUBLIC_TEMPLATE_URL } from '$env/static/public'
 
   const dispatch = createEventDispatcher()
 
   let themes = []
   axios
-    .get('https://primosites.vercel.app/api/primo-landing-page/themes')
+    .get(PUBLIC_TEMPLATE_URL)
     .then(({ data }) => {
-      const themes_section = data.sections.find(
-        (section) => section._meta.id === 'ff5c3e56-690b-4220-abe9-9f02a74e1599'
-      )
-      themes = themes_section.templates.filter(
-        (template) => template.price === '0' && template.available
+      themes = data.templates.filter(
+        (template) => template.available
       )
     })
 
