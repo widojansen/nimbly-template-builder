@@ -49,6 +49,7 @@ export const sites = {
     const backup_json = JSON.stringify({
       site,
       pages,
+      // @ts-ignore
       sections: sections.map(section => ({
         ...section,
         page: section.page.id

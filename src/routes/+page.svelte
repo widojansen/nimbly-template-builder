@@ -54,6 +54,17 @@
   }
 
   let siteBeingEdited = { id: null, element: null }
+
+  async function toggle_template(site) {
+    //await actions.sites.update(site.id, { template: !site.template })
+    console.log('toggle template', site)
+    show({
+      id: 'TOGGLE_TEMPLATE',
+      props: {
+        site,
+      },
+    })
+  }
 </script>
 
 <main class="primo-reset">
@@ -121,6 +132,15 @@
                   >
                     <Icon icon="pepicons-pop:trash" />
                     <span>Delete</span>
+                  </button>
+                </div>
+                <div class="buttons">
+                  <button
+                    class="site-button"
+                    on:click={() => toggle_template(site)}
+                  >
+                    <Icon icon="tdesign:template" />
+                    <span>Toggle Template</span>
                   </button>
                 </div>
               {/if}

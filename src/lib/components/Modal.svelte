@@ -37,12 +37,14 @@
   import DeleteSite from './Modals/DeleteSite.svelte'
   import ServerInvitation from './Modals/ServerInvitation.svelte'
   import InviteSiteCollaborator from './Modals/SiteInvitation.svelte'
+  import ToggleTemplate from './Modals/ToggleTemplate.svelte'
 
   const modals = {
     CREATE_SITE: CreateSite,
     DELETE_SITE: DeleteSite,
     INVITE_COLLABORATORS: ServerInvitation,
     INVITE_SITE_COLLABORATOR: InviteSiteCollaborator,
+    TOGGLE_TEMPLATE: ToggleTemplate,
   }
 
   let activeModal = modals[$type.id]
