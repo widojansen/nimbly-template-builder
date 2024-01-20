@@ -10,6 +10,7 @@ export async function load({ url, parent }) {
 
   if (!session && !signing_up && !joining_server) {
     const {data:existing_users} = await supabase_admin.from('users').select('*')
+    // @ts-ignore
     const initiated = existing_users?.length > 0
     if (!initiated) {
       throw redirect(303, '?signup')
@@ -26,6 +27,7 @@ export const actions = {
     const email = data.get('email');
     const password = data.get('password');
 
+    // @ts-ignore
     const {data:res, error} = await supabase.auth.signInWithPassword({email, password})
 
     if (error) {

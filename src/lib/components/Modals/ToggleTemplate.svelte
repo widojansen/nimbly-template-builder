@@ -3,112 +3,72 @@
 	import Spinner from '$lib/ui/Spinner.svelte'
 	import TextField from '$lib/ui/TextField.svelte'
 	import PrimaryButton from '$lib/ui/PrimaryButton.svelte'
-	import { validate_url } from '$lib/utils'
 	import { validate_site_structure_v2 } from 'builder'
 	import Icon from '@iconify/svelte'
 	import { buildStaticPage } from 'builder'
-	import Themes from '../Themes.svelte'
 
 	export let site
+	export let template
+	let newTemplate = false
 
-	let template = {
-		"id":1,
-		"site_id":"",
-		"name":"",
-		"repo":"",
-		"price":0,
-		"price_id":null,
-		"available":true,
-		"description":{
-			"html":"",
-			"markdown":""
-		},
-		"preview_url":"",
-		"screenshots": {
-			"mobile":{
-				"alt":"",
-				"src":"",
-				"url":"",
-				"size":0
+	if (template === undefined) {
+		newTemplate = true
+
+		template = {
+			"id": 1,
+			"site_id": "",
+			"name": "",
+			"repo": "",
+			"price": 0,
+			"price_id": null,
+			"available": true,
+			"description": {
+				"html": "",
+				"markdown": ""
 			},
-			"tablet":{
-				"alt":"",
-				"src":"",
-				"url":"",
-				"size":0
+			"preview_url": "",
+			"screenshots": {
+				"mobile": {
+					"alt": "",
+					"src": "",
+					"url": "",
+					"size": 0
+				},
+				"tablet": {
+					"alt": "",
+					"src": "",
+					"url": "",
+					"size": 0
+				},
+				"desktop": {
+					"alt": "",
+					"src": "",
+					"url": "",
+					"size": 0
+				}
 			},
-			"desktop":{
-				"alt":"",
-				"src":"",
-				"url":"",
-				"size":0
-			}
-		},
-		"template_id":null,
-		"created_at":null,
-		"updated_at":null
+			"template_id": null,
+			"created_at": null,
+			"updated_at": null
+		}
 	}
-	export let onSuccess = (newSite, preview) => {}
+
 
 	let loading = false
 	let finishing = false
-	let selected_theme
-	let siteIDFocused = false
 	let message = ''
-	$: canCreateSite = template.name && template.repo && (selected_theme || duplicated_site)
-
-	let duplicated_site = null
-	let preview = '<div></div>'
+	$: canUpsertTemplate = template.name && template.repo
 
 
 	async function toggleTemplate() {
 		console.log('toggleTemplate', template.name, template.repo, site)
 	}
 
-	function validateUrl() {
-		site_url = validate_url(siteIDFocused ? template.repo : template.name)
+	function validateText(event) {
+		console.log('validateText', event.target.value)
+		return true
 	}
 
-	let duplicatingSite = false
-	let primo_json_valid = true
-	function readJsonFile({ target }) {
-		loading = true
-		duplicatingSite = true
-
-		var reader = new window.FileReader()
-		reader.onload = async function ({ target }) {
-			if (typeof target.result !== 'string') return
-
-			try {
-				const uploaded = JSON.parse(target.result)
-				const converted = validate_site_structure_v2(uploaded)
-				if (converted) {
-					duplicated_site = converted
-
-					const home_page = duplicated_site.pages.find((page) => page.url === 'index')
-
-					const page = await buildStaticPage({
-						page: home_page,
-						site: duplicated_site.site,
-						page_sections: duplicated_site.sections.filter(
-							(section) => section.page === home_page.id
-						),
-						page_symbols: duplicated_site.symbols,
-						no_js: true
-					})
-
-					preview = page.html
-				} else {
-					primo_json_valid = false
-				}
-				loading = false
-			} catch (e) {
-				console.error({ e })
-				primo_json_valid = false
-			}
-		}
-		reader.readAsText(target.files[0])
-	}
 </script>
 
 <main class="primo-reset primo-modal">
@@ -118,15 +78,57 @@
 			<div class="name-url">
 				<TextField
 					autofocus={true}
-					label="Template Name"
-					on:input={validateUrl}
+					label="Name"
+					on:input={validateText}
 					bind:value={template.name}
 				/>
 				<TextField
 					label="Repo"
 					bind:value={template.repo}
-					on:input={validateUrl}
-					on:focus={() => (siteIDFocused = true)}
+					on:input={validateText}
+				/>
+				<TextField
+					label="Description HTML"
+					bind:value={template.description.html}
+					on:input={validateText}
+				/>
+				<TextField
+					label="Description Markdown"
+					bind:value={template.description.markdown}
+					on:input={validateText}
+				/>
+				<div class="container">
+					<input
+						type="checkbox"
+						id="template-active"
+						bind:checked={template.active}
+					/>
+					<label for="template-active">
+						<span>Active</span>
+					</label>
+				</div>
+				<span>{message}</span>
+			</div>
+			<TextField
+				label="Preview URL"
+				bind:value={template.preview_url}
+				on:input={validateText}
+			/>
+			<div>
+				<TextField
+						label="Screenshot Desktop Source"
+						bind:value={template.screenshots.desktop.src}
+						on:input={validateText}
+				/>
+				<TextField
+						label="Screenshot Desktop URL"
+						bind:value={template.screenshots.desktop.url}
+						on:input={validateText}
+				/>
+				<TextField
+						label="Screenshot Desktop Alt"
+						bind:value={template.screenshots.desktop.alt}
+						on:input={validateText}
 				/>
 			</div>
 			<!--{#if duplicatingSite && primo_json_valid}-->
@@ -141,26 +143,19 @@
 			<!--	<Themes on:select={({ detail }) => (selected_theme = detail)} />-->
 			<!--{/if}-->
 			<footer>
-<!--				<div id="upload-json">-->
-<!--					<label class="container">-->
-<!--						<input on:change={readJsonFile} type="file" id="primo-json" accept=".json" />-->
-<!--						<Icon icon="carbon:upload" />-->
-<!--						<span>Duplicate from primo.json</span>-->
-<!--					</label>-->
-<!--				</div>-->
 			</footer>
 			<div class="submit">
 				<PrimaryButton
 					type="submit"
-					label={duplicatingSite ? 'Duplicate Site' : 'Create Site'}
-					disabled={!canCreateSite && primo_json_valid}
+					label={newTemplate ? 'CreateTemplate' : 'Update Template'}
+					disabled={!canUpsertTemplate}
 					{loading}
 				/>
 			</div>
 		</form>
 	{:else}
 		<div class="creating-site">
-			<span>{duplicatingSite ? 'Duplicating' : 'Creating'} {template.name}</span>
+			<span>{newTemplate ? 'Creating' : 'Updating'} {template.name}</span>
 			{#key message}
 				<p>{message}</p>
 			{/key}

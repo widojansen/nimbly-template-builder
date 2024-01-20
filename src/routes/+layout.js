@@ -24,17 +24,21 @@ export async function load(event) {
     throw redirect(303, '/auth')
   } else if (session) {
     // const site = event.params['site']
-    const { sites, user } = await Promise.all([
+    const { sites, user, templates } = await Promise.all([
       supabase
         .from('sites')
         .select('id, name, url, active_deployment, collaborators (*)')
         .order('created_at', { ascending: true }),
       supabase
+        .from('templates')
+        .select('*')
+        .order('site_id', { ascending: true }),
+      supabase
         .from('users')
         .select('*, server_members (admin, role), collaborators (role)')
         .eq('id', session.user.id)
         .single(),
-    ]).then(([{ data: sites }, { data: user }]) => {
+    ]).then(([{ data: sites }, {data: templates}, { data: user }]) => {
       const [server_member] = user.server_members
       const [collaborator] = user.collaborators
 
@@ -54,6 +58,7 @@ export async function load(event) {
 
       return {
         sites: sites || [],
+        templates: templates || [],
         user: user_final,
       }
     })
@@ -67,11 +72,19 @@ export async function load(event) {
         )
     )
 
+
+    // TODO: do this w/ sql
+    const user_templates = templates?.filter(
+      (template) =>
+        user_sites.findIndex((site) => site.id === template.site_id) > -1
+    )
+
     return {
       supabase,
       session,
       user,
       sites: user_sites,
+      templates: user_templates,
     }
   }
 }

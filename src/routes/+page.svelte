@@ -58,12 +58,18 @@
   async function toggle_template(site) {
     //await actions.sites.update(site.id, { template: !site.template })
     console.log('toggle template', site)
+    const template = data.templates.find((t) => t.site_id === site.id)
     show({
       id: 'TOGGLE_TEMPLATE',
       props: {
         site,
+        template,
       },
     })
+  }
+
+  function templateExists(site) {
+    return !!(data.templates && data.templates.findIndex((t) => t.site_id === site.id) > -1);
   }
 </script>
 
@@ -140,7 +146,13 @@
                     on:click={() => toggle_template(site)}
                   >
                     <Icon icon="tdesign:template" />
-                    <span>Toggle Template</span>
+                    <span>
+                      {#if templateExists(site)}
+                        Edit Template
+                      {:else}
+                        Set Template
+                      {/if}
+                    </span>
                   </button>
                 </div>
               {/if}

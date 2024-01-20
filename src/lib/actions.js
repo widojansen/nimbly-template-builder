@@ -52,6 +52,7 @@ export const sites = {
       // @ts-ignore
       sections: sections.map(section => ({
         ...section,
+        // @ts-ignore
         page: section.page.id
       })),
       symbols,
