@@ -91,3 +91,17 @@ export const sites = {
     invalidate('app:data')
   },
 }
+
+export const templates = {
+  create: async (data) => {
+    // remove id so it's auto generated
+    delete(data.id)
+    let res = await supabase.from('templates').insert(data)
+  },
+  update: async (id, props) => {
+    let res = await supabase.from('templates').update(props).eq('id', id)
+  },
+  delete: async (id) => {
+    await supabase.from('templates').delete().eq('id', id)
+  }
+}
