@@ -112,7 +112,7 @@
                   e.target.style.opacity = '0.5'
                 }}>{site.id}</button>
               {/if}
-              {#if $page.data.user.admin}
+              <!--{#if $page.data.user.admin}-->
                 <div class="buttons">
                   <button
                     on:click={() => beginInvitation(site)}
@@ -155,7 +155,7 @@
                     </span>
                   </button>
                 </div>
-              {/if}
+              <!--{/if}-->
             </div>
           </li>
         {/each}

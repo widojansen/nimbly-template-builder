@@ -2,14 +2,15 @@
 2. ✅ Add the template table and keys to the database
 3. ✅ Create a templates page in the api section to export the content of the template table
 4. ✅ Create a button in overview to mark a site as a template
-5. Create modal with template_id/name/repo/description/preview_url/available/repo/screenshots mobile/tablet/desktop
-6. Create a create template action
-7. Create a delete template action
-8. Create a update template action
-9. Create a read template action
+5. ✅ Create modal with template_id/name/repo/description/preview_url/available/repo/screenshots mobile/tablet/desktop
+6. ✅ Create a create template action
+7. ✅ Create a delete template action
+8. ✅ Create a update template action
+9. ✅ Create a read template action
 10. ✅ Import the templates into the site builder
 11. ✅ Setup redeployments of site-builder and template-builder
 12. ✅ Modify template source
+13. Grant access to all template builder users
 
 Template JSON:
 {"templates": [
