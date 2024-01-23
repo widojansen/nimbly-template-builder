@@ -24,7 +24,7 @@
     <h2>Delete {site.name}</h2>
     <p>
       Are you sure you want to delete this site? You won't be able to get it
-      back.
+      back. The template - if existing - will also be deleted.
     </p>
     <form on:submit|preventDefault={deleteSite}>
       <div class="options">

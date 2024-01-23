@@ -71,6 +71,8 @@ export const sites = {
       supabase.from('symbols').delete().eq('site', site.id),
       supabase.from('invitations').delete().eq('site', site.id),
       supabase.from('collaborators').delete().eq('site', site.id),
+      // delete templates based on site
+      supabase.from('templates').delete().eq('site_id', site.id)
     ])
 
     if (delete_files) {
